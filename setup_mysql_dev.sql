@@ -2,6 +2,7 @@
 CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
 
 -- Create a new user hbnb_dev identified by a password
+-- SET GLOBAL validate_password.policy = 0;
 CREATE USER IF NOT EXISTS 'hbnb_dev'@'localhost' IDENTIFIED BY 'hbnb_dev_pwd';
 
 -- Grant all privileges on the hbnb_dev_db database to the hbnb_dev user
