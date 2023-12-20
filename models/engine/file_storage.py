@@ -34,9 +34,8 @@ class FileStorage:
 
     def delete(self, obj=None):
         """  delete obj from __objects """
-        rs = FileStorage.__objects.pop(f"{type(obj).__name__}.{obj.id}", None)
-        if rs is not None:
-            self.save()
+        if obj:
+            del self.__objects[f"{obj.__class__.__name__}.{obj.id}"]
 
     def reload(self):
         """Loads storage dictionary from file"""
