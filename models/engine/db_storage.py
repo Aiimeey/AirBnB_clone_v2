@@ -11,26 +11,27 @@ from models.review import Review
 from models.amenity import Amenity
 import os
 
+
 class DBStorage:
     """ db storage class """
     __engine = None
     __session = None
 
     def __init__(self):
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}:3306/{}'.
                                       format(os.getenv('HBNB_MYSQL_USER'),
                                              os.getenv('HBNB_MYSQL_PWD'),
                                              os.getenv('HBNB_MYSQL_HOST'),
                                              os.getenv('HBNB_MYSQL_DB')),
                                       pool_pre_ping=True)
-        
+
         env = os.getenv("HBNB_ENV")
         if env == "test":
             Base.metadata.drop_all(self.__engine)
-    
+
     def all(self, cls=None):
         """ all classes  """
-        classes = [State, City]
+        classes = [State, City, Amenity, Place, Review, User]
         dic = {}
         if cls:
             if cls in classes:
@@ -43,7 +44,7 @@ class DBStorage:
                     key = f"{obj.__class__.__name__}.{obj.id}"
                     dic[key] = obj
         return dic
-    
+
     def new(self, obj):
         """ add a new object to the database """
         if obj:
@@ -52,7 +53,7 @@ class DBStorage:
     def save(self):
         """ commit changes to the database """
         self.__session.commit()
-    
+
     def delete(self, obj=None):
         """ remove an object from the database """
         if obj:
@@ -64,4 +65,3 @@ class DBStorage:
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session)
         self.__session = Session()
-

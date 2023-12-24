@@ -8,12 +8,17 @@ from os import getenv
 
 Base = declarative_base()
 
+
 class BaseModel:
     """A base class for all hbnb models"""
     if getenv("HBNB_TYPE_STORAGE") == "db":
         id = Column(String(60), primary_key=True, nullable=False, unique=True)
-        created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-        updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+        created_at = Column(
+                            DateTime, nullable=False, default=datetime.utcnow()
+                            )
+        updated_at = Column(
+                            DateTime, nullable=False, default=datetime.utcnow()
+                            )
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
@@ -53,7 +58,7 @@ class BaseModel:
         if '_sa_instance_state' in dictionary:
             del (dictionary['_sa_instance_state'])
         return dictionary
-    
+
     def delete(self):
         """ delete an instance """
         from models import storage
