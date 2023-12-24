@@ -31,7 +31,7 @@ class DBStorage:
 
     def all(self, cls=None):
         """ all classes  """
-        classes = [State, City, Amenity, Place, Review, User]
+        classes = [State, City]
         dic = {}
         if cls:
             if cls in classes:
