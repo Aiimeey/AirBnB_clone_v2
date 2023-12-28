@@ -11,6 +11,7 @@ from models.review import Review
 from models.amenity import Amenity
 import os
 
+
 class DBStorage:
     """ db storage class """
     __engine = None
@@ -23,11 +24,11 @@ class DBStorage:
                                              os.getenv('HBNB_MYSQL_HOST'),
                                              os.getenv('HBNB_MYSQL_DB')),
                                       pool_pre_ping=True)
-        
+
         env = os.getenv("HBNB_ENV")
         if env == "test":
             Base.metadata.drop_all(self.__engine)
-    
+
     def all(self, cls=None):
         """ all classes  """
         classes = [State, City]
@@ -43,7 +44,7 @@ class DBStorage:
                     key = f"{obj.__class__.__name__}.{obj.id}"
                     dic[key] = obj
         return dic
-    
+
     def new(self, obj):
         """ add a new object to the database """
         if obj:
@@ -52,7 +53,7 @@ class DBStorage:
     def save(self):
         """ commit changes to the database """
         self.__session.commit()
-    
+
     def delete(self, obj=None):
         """ remove an object from the database """
         if obj:
