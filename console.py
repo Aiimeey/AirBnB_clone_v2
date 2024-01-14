@@ -19,16 +19,16 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+        'BaseModel': BaseModel, 'User': User, 'Place': Place,
+        'State': State, 'City': City, 'Amenity': Amenity,
+        'Review': Review
+    }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
+        'number_rooms': int, 'number_bathrooms': int,
+        'max_guest': int, 'price_by_night': int,
+        'latitude': float, 'longitude': float
+    }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -139,6 +139,19 @@ class HBNBCommand(cmd.Cmd):
         print(new_instance.id)
         storage.save()
 
+    def CheckType(self, value):
+        """method that check type of value [str, int, float]"""
+        if value[0] == '"' and value[len(value) - 1] == '"' and\
+                len(value) >= 2:
+            Value = str(value)[1:-1].replace("_", " ")
+        elif "." in value:
+            Value = float(value)
+        elif bool(re.match("^-?[0-9]+$", value)):
+            Value = int(value)
+        else:
+            Value = None
+        return Value
+
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
@@ -219,11 +232,11 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
 
         print(print_list)

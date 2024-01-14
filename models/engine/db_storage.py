@@ -9,7 +9,7 @@ from models.user import User
 from models.place import Place
 from models.review import Review
 from models.amenity import Amenity
-import os
+from os import getenv
 
 
 class DBStorage:
@@ -19,19 +19,19 @@ class DBStorage:
 
     def __init__(self):
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
-                                      format(os.getenv('HBNB_MYSQL_USER'),
-                                             os.getenv('HBNB_MYSQL_PWD'),
-                                             os.getenv('HBNB_MYSQL_HOST'),
-                                             os.getenv('HBNB_MYSQL_DB')),
+                                      format(getenv('HBNB_MYSQL_USER'),
+                                             getenv('HBNB_MYSQL_PWD'),
+                                             getenv('HBNB_MYSQL_HOST'),
+                                             getenv('HBNB_MYSQL_DB')),
                                       pool_pre_ping=True)
 
-        env = os.getenv("HBNB_ENV")
+        env = getenv("HBNB_ENV")
         if env == "test":
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """ all classes  """
-        classes = [State, City]
+        classes = [User, State, City, Amenity, Place, Review]
         dic = {}
         if cls:
             if cls in classes:

@@ -44,10 +44,10 @@ class FileStorage:
         from models.review import Review
 
         classes = {
-                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
-                    'State': State, 'City': City, 'Amenity': Amenity,
-                    'Review': Review
-                  }
+            'BaseModel': BaseModel, 'User': User, 'Place': Place,
+            'State': State, 'City': City, 'Amenity': Amenity,
+            'Review': Review
+        }
         try:
             temp = {}
             with open(FileStorage.__file_path, 'r') as f:
@@ -58,6 +58,9 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """ delete obj from __objects """
+        """delete an obj"""
         if obj:
-            del self.__objects[f"{obj.__class__.__name__}.{obj.id}"]
+            key = f'{obj.to_dict()["__class__"]}.{obj.to_dict()["id"]}'
+            if key in FileStorage.__objects:
+                del (FileStorage.__objects[key])
+                self.save()
