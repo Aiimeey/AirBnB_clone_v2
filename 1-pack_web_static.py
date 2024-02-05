@@ -1,26 +1,16 @@
 #!/usr/bin/python3
-"""
-import modules
-this file is fabfile
-"""
+"""Generates a .tgz archive from the contents of the web_static folder."""
 from fabric.api import local
-from datetime import datetime
-import os
+import time
 
 
 def do_pack():
-    """
-    this function execute script that generates a .tgz
-        archive from the contents of the web_static folder
-    """
-    local("mkdir -p versions")
-    date = datetime.now().strftime("%Y%m%d%H%M%S")
-    file_path = f'versions/web_static_{date}.tgz'
-    print(f'Packing web_static to {file_path}')
+    """Generate an tgz archive from web_static folder"""
     try:
-        local(f"tar -czvf {file_path} web_static")
-        size = os.path.getsize(file_path)
-        print(f'web_static packed: {file_path} -> {size}Bytes')
-        return file_path
-    except Exception:
+        local("mkdir -p versions")
+        local("tar -cvzf versions/web_static_{}.tgz web_static/".
+              format(time.strftime("%Y%m%d%H%M%S")))
+        return ("versions/web_static_{}.tgz".format(time.
+                                                    strftime("%Y%m%d%H%M%S")))
+    except:
         return None
