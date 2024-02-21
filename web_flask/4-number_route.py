@@ -32,7 +32,7 @@ def python_text(text):
 
 @app.route('/number/<int:n>', strict_slashes=False)
 def number(n):
-    """ Route that displays 'n is a number' when n is int """
+    """ Route that displays 'n is a number' if n is int """
     return f'{n} is a number'
 
 
