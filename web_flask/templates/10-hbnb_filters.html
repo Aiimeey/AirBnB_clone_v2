@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<HTML lang="en">
+    <HEAD>
+        <TITLE>HBNB</TITLE>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/3-header.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/4-common.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/6-filters.css') }}">
+    </HEAD>
+    <BODY>
+        <header class="clearfix">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" height="40px">
+            </div>
+            <div class="title">
+                <h1>HBNB</h1>
+            </div>
+            <div class="search">
+                <input type="text" placeholder="Search...">
+                <button>Search</button>
+            </div>
+        </header>
+        <div class="filters">
+            <h2>Filters</h2>
+            <div class="filter">
+                <h3 class="title">States</h3>
+                <div class="options">
+                    {% for state in states %}
+                    <div class="checkbox">
+                        <input type="checkbox" name="state" value="{{ state.id }}">{{ state.name }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="filter">
+                <h3 class="title">Cities</h3>
+                <div class="options">
+                    {% for city in cities %}
+                    <div class="checkbox">
+                        <input type="checkbox" name="city" value="{{ city.id }}">{{ city.name }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="filter">
+                <h3 class="title">Amenities</h3>
+                <div class="options">
+                    {% for amenity in amenities %}
+                    <div class="checkbox">
+                        <input type="checkbox" name="amenity" value="{{ amenity.id }}">{{ amenity.name }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="clearfix">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/icon.png') }}" height="30px">
+                </div>
+                <div class="text">
+                    <p>Footer</p>
+                </div>
+            </div>
+        </footer>
+    </BODY>
+</HTML>
