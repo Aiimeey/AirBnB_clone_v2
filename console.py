@@ -127,30 +127,21 @@ class HBNBCommand(cmd.Cmd):
         arg = args.split(" ")[1:]
         for param in arg:
             key, value = param.split("=")
-            if value.isdigit():
-                value = int(value)
-            elif isinstance(value, float):
-                value = float(value)
-            else:
-                value = str(value).strip().replace('"', '').replace("'", '')\
-                    .replace('_', ' ')
+            value = self.CheckType(value)
             setattr(new_instance, key, value)
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
-        storage.save()
 
     def CheckType(self, value):
         """method that check type of value [str, int, float]"""
-        if value[0] == '"' and value[len(value) - 1] == '"' and\
-                len(value) >= 2:
-            Value = str(value)[1:-1].replace("_", " ")
-        elif "." in value:
-            Value = float(value)
-        elif bool(re.match("^-?[0-9]+$", value)):
+        if value.isdigit():
             Value = int(value)
         else:
-            Value = None
-        return Value
+            try:
+                Value = float(value)
+            except ValueError:
+                Value = str(value).strip().replace('"', '').replace("'", '')\
+                    .replace('_', ' ')
 
     def help_create(self):
         """ Help information for the create method """
