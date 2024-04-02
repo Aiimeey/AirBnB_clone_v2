@@ -135,13 +135,13 @@ class HBNBCommand(cmd.Cmd):
     def CheckType(self, value):
         """method that check type of value [str, int, float]"""
         if value.isdigit():
-            Value = int(value)
+            value = int(value)
+        elif isinstance(value, float):
+            value = float(value)
         else:
-            try:
-                Value = float(value)
-            except ValueError:
-                Value = str(value).strip().replace('"', '').replace("'", '')\
+            value = str(value).strip().replace('"', '').replace("'", '')\
                     .replace('_', ' ')
+        return value
 
     def help_create(self):
         """ Help information for the create method """
