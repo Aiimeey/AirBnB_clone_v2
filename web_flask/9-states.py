@@ -1,42 +1,40 @@
 #!/usr/bin/python3
+"""this script starts a Flask web application
+    this web application must be listening on 0.0.0.0 at port 5000
+    Route:
+        /states: ***
+        /states/id: ***
 """
-Script that starts a Flask web application
-"""
-
-from flask import Flask, render_template
 from models import storage
+from models.state import State
+from flask import Flask, render_template
+
 
 app = Flask(__name__)
 
 
-@app.route('/states', strict_slashes=False)
-def display_states():
+@app.route("/states", strict_slashes=False)
+@app.route("/states/<id>", strict_slashes=False)
+def states_id(id=None):
+    """Displays an HTML page with a list of all states/cites
+        at '/states' path
+        or '/states/id' path
     """
-    Route that displays a HTML page with a list of states
-    """
-    states = storage.all("State").values()
-    return render_template('9-states.html', states=states)
-
-
-@app.route('/states/<state_id>', strict_slashes=False)
-def display_state_cities(state_id):
-    """
-    Route that displays a HTML page with cities of a given state
-    """
-    state = storage.get("State", state_id)
-    if state is None:
-        return render_template('9-not_found.html'), 404
+    states = storage.all(State)
+    if id:
+        for state in states.values():
+            if id == state.id:
+                return render_template("9-states.html", state=state)
+        return render_template("9-states.html")
     else:
-        return render_template('9-states.html', state=state)
+        return render_template("9-states.html", state=states)
 
 
 @app.teardown_appcontext
-def teardown_db(exception):
-    """
-    Teardown method to close storage
-    """
+def teardown(exc):
+    """Remove the current SQLAlchemy session"""
     storage.close()
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host="0.0.0.0")
