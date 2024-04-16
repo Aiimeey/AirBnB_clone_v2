@@ -3,7 +3,7 @@
 	<head>
 		<title>AirBnB clone</title>
 
-		<link rel="shortcut icon" href="../images/icon.ico" >
+		<link rel="shortcut icon" href="../static/images/icon.ico" >
 
 		<link rel="stylesheet" href="../static/styles/4-common.css"/>
 		<link rel="stylesheet" href="../static/styles/3-header.css"/>
@@ -19,6 +19,7 @@
 				<button>Search</button>
 				<div class="locations">
 					<h3>States</h3>
+					<h4></h4>
 					<ul class="popover">
 						{% for state in states.values()|sort(attribute="name") %}
 						<li><h2>{{ state.name }}</h2>
@@ -32,7 +33,7 @@
 				</div>
 				<div class="locations">
 					<h3>Amenities</h3>
-					<h4>     </h4>
+					<h4></h4>
 					<ul class="popover">
 						{% for amenity in amenities.values()|sort(attribute="name") %}
 						<li><h4>{{ amenity.name }}</h4></li>
